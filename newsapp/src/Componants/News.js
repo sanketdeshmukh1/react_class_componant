@@ -3,71 +3,21 @@ import NewsItem from './NewsItem';
 
 export class news extends Component {
 
-    articles= [{
-        "source": {
-        "id": "cnn",
-        "name": "CNN"
-        },
-        "author": "Chris Isidore, CNN Business",
-        "title": "Spirit and Frontier Airlines plan to merge - CNN",
-        "description": "Spirit and Frontier Airlines on Monday announced a $6.6 billion merger, a combination of low-fare carriers that would create America's fifth-largest airline.",
-        "url": "https://www.cnn.com/2022/02/07/investing/spirit-frontier-airlines-merger/index.html",
-        "urlToImage": "https://cdn.cnn.com/cnnnext/dam/assets/220207121822-spirit-frontier-merger-file-restricted-080621-super-tease.jpg",
-        "publishedAt": "2022-02-07T13:38:00Z",
-        "content": null
-        },
-        {
-        "source": {
-        "id": null,
-        "name": "CNBC"
-        },
-        "author": "Matthew J. Belvedere",
-        "title": "5 things to know before the stock market opens Monday - CNBC",
-        "description": "U.S. stock futures edged up Monday after the S&P 500 and the Nasdaq Composite logged their best weeks of the year.",
-        "url": "https://www.cnbc.com/2022/02/07/5-things-to-know-before-the-stock-market-opens-monday-february-7.html",
-        "urlToImage": "https://image.cnbcfm.com/api/v1/image/107011386-1643992910594-abd.jpg?v=1643992963",
-        "publishedAt": "2022-02-07T13:24:20Z",
-        "content": "Here are the most important news, trends and analysis that investors need to start their trading day: 1. Wall Street looks higher after S&amp;P 500, Nasdaq's best weeks of 2022 Traders work on the … [+4564 chars]"
-        }
-        ,
-        {
-        "source": {
-        "id": null,
-        "name": "CNBC"
-        },
-        "author": "Matthew J. Belvedere",
-        "title": "5 things to know before the stock market opens Monday - CNBC",
-        "description": "U.S. stock futures edged up Monday after the S&P 500 and the Nasdaq Composite logged their best weeks of the year.",
-        "url": "https://www.cnbc.com/2022/02/07/5-things-to-know-before-the-stock-market-opens-monday-february-7.html",
-        "urlToImage": "https://image.cnbcfm.com/api/v1/image/107011386-1643992910594-abd.jpg?v=1643992963",
-        "publishedAt": "2022-02-07T13:24:20Z",
-        "content": "Here are the most important news, trends and analysis that investors need to start their trading day: 1. Wall Street looks higher after S&amp;P 500, Nasdaq's best weeks of 2022 Traders work on the … [+4564 chars]"
-        },
-        {
-          "source": {
-          "id": null,
-          "name": "CNBC"
-          },
-          "author": "Matthew J. Belvedere",
-          "title": "5 things to know before the stock market opens Monday - CNBC",
-          "description": "U.S. stock futures edged up Monday after the S&P 500 and the Nasdaq Composite logged their best weeks of the year.",
-          "url": "https://www.cnbc.com/2022/02/07/5-things-to-know-before-the-stock-market-opens-monday-february-7.html",
-          "urlToImage": "https://image.cnbcfm.com/api/v1/image/107011386-1643992910594-abd.jpg?v=1643992963",
-          "publishedAt": "2022-02-07T13:24:20Z",
-          "content": "Here are the most important news, trends and analysis that investors need to start their trading day: 1. Wall Street looks higher after S&amp;P 500, Nasdaq's best weeks of 2022 Traders work on the … [+4564 chars]"
-          }
-      
-      ]
-
     constructor(){
         super();
         console.log("I am constructor");
         this.state={
-            articles:this.articles,
+            articles:[],
             loading:false
         }
     }
- 
+async componentDidMount(){
+let data=await fetch("https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=a12e0c47a7004318995856ed387989ba");
+let parseData=await data.json();
+this.setState({articles:parseData.articles})
+}
+
+
   render() {
     return <div>
   <div className="container">
@@ -78,7 +28,7 @@ export class news extends Component {
             {/* col-md-4=column medium 3  */}
             {this.state.articles.map((element)=>{
               return <div className="col-md-4" key={element.url}>   
-              <NewsItem title={element.title.slice(0,40)} description={element.description.slice(0,60)} imageUrl={element.urlToImage}  newsUrl={element.url}/>
+              <NewsItem title={element.title} description={element.description} imageUrl={element.urlToImage}  newsUrl={element.url}/>
               </div>
               
             } ) }
