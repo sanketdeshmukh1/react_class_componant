@@ -8,15 +8,49 @@ export class news extends Component {
         console.log("I am constructor");
         this.state={
             articles:[],
-            loading:false
+            loading:false,
+            page:1
         }
     }
 async componentDidMount(){
-let data=await fetch("https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=a12e0c47a7004318995856ed387989ba");
-let parseData=await data.json();
-this.setState({articles:parseData.articles})
+
+  let data=await fetch("https://newsapi.org/v2/top-headlines?country=in&category=sport&apiKey=a12e0c47a7004318995856ed387989ba&page=1&pageSize=3");
+  let parseData=await data.json();
+
+  this.setState({
+    articles:parseData.articles,
+    page:1,
+    totalResults:parseData.totalResults
+  })
+  
 }
 
+handleNextClick = async ()=>{
+  
+if(this.state.page + 1 > Math.ceil(this.state.totalResults/3) )
+{
+
+}
+else{
+  let data=await fetch(`https://newsapi.org/v2/top-headlines?country=in&category=sport&apiKey=a12e0c47a7004318995856ed387989ba&page=${this.state.page + 1}&pageSize=3`);
+  let parseData=await data.json();
+  this.setState({
+    articles:parseData.articles,
+    page:this.state.page + 1
+  })
+}
+}
+
+handlePrevClick = async ()=>{
+  
+
+  let data=await fetch(`https://newsapi.org/v2/top-headlines?country=in&category=sport&apiKey=a12e0c47a7004318995856ed387989ba&page=${this.state.page - 1}&pageSize=3`);
+  let parseData=await data.json();
+  this.setState({
+    articles:parseData.articles,
+    page:this.state.page - 1
+  })
+}
 
   render() {
     return <div>
@@ -30,8 +64,11 @@ this.setState({articles:parseData.articles})
               return <div className="col-md-4" key={element.url}>   
               <NewsItem title={element.title} description={element.description} imageUrl={element.urlToImage}  newsUrl={element.url}/>
               </div>
-              
             } ) }
+        </div>
+        <div  class="container d-flex justify-content-between"> 
+        <button type="button" disabled={this.state.page<=1} class="btn btn-success my-3" onClick={this.handlePrevClick}>Previous</button>
+        <button type="button"    class="btn btn-success my-3" onClick={this.handleNextClick}>Next</button>
         </div>
         </div>
     
