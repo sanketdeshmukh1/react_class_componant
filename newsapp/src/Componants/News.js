@@ -17,7 +17,7 @@ export class news extends Component {
   
 async componentDidMount(){
 
-  let data=await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a12e0c47a7004318995856ed387989ba&page=1&pageSize=${this.props.pageSize}`);
+  let data=await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=1&pageSize=${this.props.pageSize}`);
   let parseData=await data.json();
 
   this.setState({
@@ -35,7 +35,7 @@ if(this.state.page + 1 > Math.ceil(this.state.totalResults/3) )
 
 }
 else{
-  let data=await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a12e0c47a7004318995856ed387989ba&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`);
+  let data=await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`);
   let parseData=await data.json();
   this.setState({
     articles:parseData.articles,
@@ -47,7 +47,7 @@ else{
 handlePrevClick = async ()=>{
   
 
-  let data=await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=a12e0c47a7004318995856ed387989ba&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`);
+  let data=await fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`);
   let parseData=await data.json();
   this.setState({
     articles:parseData.articles,
