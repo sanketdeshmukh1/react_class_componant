@@ -4,14 +4,15 @@ import PropTypes from 'prop-types';
 
 export class news extends Component {
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         console.log("I am constructor");
         this.state={
             articles:[],
             loading:false,
             page:1
         }
+
     }
   
 async componentDidMount(){
@@ -70,13 +71,15 @@ static propTypes=  {
     return <div>
   <div className="container">
  
-<h2 class="text-center">Welcome to NewsAPi</h2>
+<h2 class="text-center">NewsAPi-Headlines from {this.props.category} Category</h2>
+
 
 <div className="row">
             {/* col-md-4=column medium 3  */}
             {this.state.articles.map((element)=>{
               return <div className="col-md-4" key={element.url}>   
-              <NewsItem title={element.title} description={element.description} imageUrl={element.urlToImage}  newsUrl={element.url}/>
+              <NewsItem title={element.title} description={element.description} imageUrl={element.urlToImage}  newsUrl={element.url} publishedAt={element.publishedAt} 
+              sourceName={element.source.name} />
               </div>
             } ) }
         </div>
